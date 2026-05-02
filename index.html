@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitación Día de las Madres 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(160deg, #1a0010 0%, #3d0020 40%, #6b0030 100%);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* =====================
+     PANTALLA 1 — BIENVENIDA CON GLOBOS
+  ===================== */
+  #screen1 {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #1a0010 0%, #3d0020 50%, #6b0030 100%);
+    overflow: hidden;
+  }
+
+  .bg-balloons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .bg-balloon {
+    position: absolute;
+    font-size: 52px;
+    animation: bgFloat linear infinite;
+    opacity: 0.85;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  }
+
+  @keyframes bgFloat {
+    0%   { transform: translateY(0) rotate(-8deg); }
+    25%  { transform: translateY(-30px) rotate(6deg); }
+    50%  { transform: translateY(-10px) rotate(-4deg); }
+    75%  { transform: translateY(-40px) rotate(8deg); }
+    100% { transform: translateY(0) rotate(-8deg); }
+  }
+
+  .welcome-content {
+    text-align: center;
+    z-index: 2;
+    padding: 32px 24px;
+  }
+
+  .welcome-icon { font-size: 60px; margin-bottom: 16px; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  .welcome-sub {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,180,200,0.8);
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+
+  .welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .welcome-title em { color: #ff8fab; font-style: italic; }
+
+  .welcome-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 42px;
+    color: #ffb3c6;
+    margin-bottom: 24px;
+  }
+
+  .welcome-msg {
+    font-size: 14px;
+    color: rgba(255,200,215,0.85);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 32px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn-continue {
+    background: linear-gradient(135deg, #e8004a, #a00035);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 40px;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 30px rgba(232,0,74,0.5), 0 0 0 0 rgba(232,0,74,0.4);
+    animation: glowPulse 2s ease-in-out infinite;
+    transition: transform 0.15s;
+  }
+  .btn-continue:active { transform: scale(0.96); }
+
+  @keyframes glowPulse {
+    0%,100% { box-shadow: 0 8px 30px rgba(232,0,74,0.5), 0 0 0 0 rgba(232,0,74,0.4); }
+    50% { box-shadow: 0 8px 40px rgba(232,0,74,0.7), 0 0 0 12px rgba(232,0,74,0); }
+  }
+
+  /* Globos que salen volando al presionar */
+  .launch-balloon {
+    position: fixed;
+    bottom: -120px;
+    font-size: 50px;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  @keyframes launchUp {
+    0%   { bottom: 10vh; opacity: 1; transform: rotate(0deg) scale(1); }
+    80%  { opacity: 1; }
+    100% { bottom: 120vh; opacity: 0; transform: rotate(25deg) scale(0.8); }
+  }
+
+  /* =====================
+     PANTALLA 2 — INVITACIÓN
+  ===================== */
+  #screen2 {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    overflow-y: auto;
+    background: linear-gradient(160deg, #fff0f3 0%, #ffe4ec 40%, #ffd6e7 100%);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 12px 40px;
+  }
+
+  /* Globos de fondo en pantalla 2 */
+  .s2-balloon {
+    position: fixed;
+    font-size: 48px;
+    animation: s2Float linear infinite;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    filter: drop-shadow(0 4px 10px rgba(200,0,60,0.3));
+  }
+  @keyframes s2Float {
+    0%   { transform: translateY(0) rotate(-6deg); }
+    33%  { transform: translateY(-28px) rotate(5deg); }
+    66%  { transform: translateY(-12px) rotate(-3deg); }
+    100% { transform: translateY(0) rotate(-6deg); }
+  }
+
+  .card {
+    background: linear-gradient(180deg, rgba(255,245,248,0.97) 0%, rgba(255,240,245,0.97) 100%);
+    border-radius: 28px;
+    border: 2px solid #f9c6d4;
+    max-width: 370px;
+    width: 100%;
+    padding: 28px 22px 26px;
+    box-shadow: 0 20px 60px rgba(210,50,100,0.18), 0 4px 20px rgba(210,50,100,0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    z-index: 2;
+    margin: auto;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,150,180,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(220,50,80,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .flowers-top {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .flower { font-size: 26px; animation: sway 3s ease-in-out infinite; display: inline-block; }
+  .flower:nth-child(2) { animation-delay: 0.4s; }
+  .flower:nth-child(3) { animation-delay: 0.8s; }
+  .flower:nth-child(4) { animation-delay: 1.2s; }
+  .flower:nth-child(5) { animation-delay: 0.6s; }
+  @keyframes sway {
+    0%,100% { transform: rotate(-6deg) scale(1); }
+    50% { transform: rotate(6deg) scale(1.08); }
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #e8004a, #c2004a);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .title-small {
+    font-size: 12px;
+    color: #c2004a;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .title-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #8B0030;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .title-main em { font-style: italic; color: #c2004a; }
+
+  /* Foto */
+  .photo-frame {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    border: 4px solid #e8004a;
+    box-shadow: 0 0 0 4px #ffb3c6, 0 8px 24px rgba(200,0,60,0.3);
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffd6e7, #ffb3c6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-placeholder {
+    font-size: 48px;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, #f0a0bb, transparent); }
+  .divider-heart { color: #e8004a; font-size: 13px; }
+
+  .message {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #7a2040;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    padding: 0 4px;
+  }
+
+  .date-box {
+    background: linear-gradient(135deg, #e8004a 0%, #a00035 100%);
+    border-radius: 16px;
+    padding: 12px 20px;
+    margin: 0 auto 16px;
+    max-width: 240px;
+    box-shadow: 0 8px 24px rgba(200,0,60,0.3);
+  }
+  .date-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 2px; }
+  .date-num { font-family: 'Playfair Display', serif; font-size: 34px; color: #fff; line-height: 1; }
+  .date-month { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: rgba(255,255,255,0.9); text-transform: uppercase; margin-top: 2px; }
+
+  .confirm-label { font-size: 13px; color: #a0305a; font-weight: 300; margin-bottom: 12px; letter-spacing: 0.5px; }
+
+  .btn-group { display: flex; gap: 10px; justify-content: center; }
+
+  .btn-yes {
+    flex: 1; max-width: 140px;
+    background: linear-gradient(135deg, #e8004a, #a00035);
+    color: white; border: none; border-radius: 50px;
+    padding: 13px 18px;
+    font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(200,0,60,0.35);
+    transition: transform 0.15s;
+  }
+  .btn-yes:active { transform: scale(0.96); }
+
+  .btn-no {
+    flex: 1; max-width: 140px;
+    background: transparent; color: #ccc;
+    border: 1.5px solid #e0c0cc; border-radius: 50px;
+    padding: 13px 18px;
+    font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 400;
+    cursor: not-allowed; letter-spacing: 0.5px;
+    opacity: 0.4; user-select: none; position: relative;
+  }
+  .btn-no-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%; transform: translateX(-50%);
+    background: #8B0030; color: white;
+    font-size: 11px; padding: 4px 10px;
+    border-radius: 8px; white-space: nowrap;
+    pointer-events: none; z-index: 10;
+  }
+  .btn-no-wrapper { position: relative; flex: 1; max-width: 140px; }
+  .btn-no-wrapper:hover .btn-no-tooltip { display: block; }
+
+  .footer-flowers { margin-top: 16px; font-size: 20px; letter-spacing: 4px; }
+
+  /* Confetti */
+  #confettiCanvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999; display: none;
+  }
+
+  /* Mensaje celebración */
+  .celebration-msg {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #e8004a, #8B0030);
+    color: white; padding: 26px 32px;
+    border-radius: 24px; text-align: center;
+    z-index: 10000;
+    box-shadow: 0 20px 60px rgba(200,0,60,0.4);
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+    max-width: 290px; width: 88vw;
+  }
+  .celebration-msg.show { transform: translate(-50%, -50%) scale(1); }
+  .celebration-msg h2 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; }
+  .celebration-msg p { font-size: 13px; opacity: 0.9; font-weight: 300; }
+</style>
+</head>
+<body>
+
+<!-- ============ PANTALLA 1 ============ -->
+<div id="screen1">
+  <div class="bg-balloons" id="bgBalloons"></div>
+
+  <div class="welcome-content">
+    <div class="welcome-icon">💌</div>
+    <p class="welcome-sub">Tienes una invitación especial</p>
+    <h1 class="welcome-title">Feliz <em>Día</em></h1>
+    <h1 class="welcome-title">de las Madres</h1>
+    <p class="welcome-name">Mary</p>
+    <p class="welcome-msg">
+      Hay algo muy especial preparado para ti.<br>
+      ¡Toca el botón para descubrirlo! 🌹
+    </p>
+    <button class="btn-continue" id="btnContinue" onclick="launchAndContinue()">
+      💕 Ver mi invitación
+    </button>
+  </div>
+</div>
+
+<!-- ============ PANTALLA 2 ============ -->
+<div id="screen2">
+  <!-- Globos de fondo pantalla 2 -->
+  <div id="s2Balloons"></div>
+
+  <div class="card">
+    <div class="flowers-top">
+      <span class="flower">🌸</span>
+      <span class="flower">🌹</span>
+      <span class="flower">🌺</span>
+      <span class="flower">🌹</span>
+      <span class="flower">🌸</span>
+    </div>
+
+    <div class="badge">Día de las Madres</div>
+
+    <p class="title-small">Una invitación especial para</p>
+    <h1 class="title-main"><em>Mary</em></h1>
+
+    <!-- FOTO: reemplaza tavoymary.png con tu imagen en la misma carpeta -->
+    <div class="photo-frame">
+      <img src="tavoymary.png" alt="Tavo y Mary"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="photo-placeholder" style="display:none;">👫</div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-heart">♥</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <p class="message">
+      Tu presencia llena de luz cada momento.<br>
+      Queremos celebrar este día tan especial<br>
+      contigo, porque te lo mereces todo.
+    </p>
+
+    <div class="date-box">
+      <p class="date-label">Te esperamos el</p>
+      <p class="date-num">10</p>
+      <p class="date-month">Mayo 2026</p>
+    </div>
+
+    <p class="confirm-label">¿Confirmas tu asistencia?</p>
+
+    <div class="btn-group">
+      <button class="btn-yes" id="btnSi" onclick="celebrate()">🎉 ¡Sí voy!</button>
+      <div class="btn-no-wrapper">
+        <span class="btn-no-tooltip">💕 ¡No es opción!</span>
+        <button class="btn-no" disabled>No puedo</button>
+      </div>
+    </div>
+
+    <div class="footer-flowers">🌸 🌺 🌹 💕 🌹 🌺 🌸</div>
+  </div>
+</div>
+
+<!-- Confetti canvas -->
+<canvas id="confettiCanvas"></canvas>
+
+<!-- Mensaje de confirmación -->
+<div class="celebration-msg" id="celebMsg">
+  <h2>🎉 ¡Qué alegría!</h2>
+  <p>Nos vemos el <strong>10 de mayo</strong>, Mary.<br>¡Te esperamos con todo el amor! 💕</p>
+</div>
+
+<script>
+  /* ---- GLOBOS DE FONDO PANTALLA 1 ---- */
+  const balloonEmojis = ['🎈','🌸','🌹','🌺','💖','🎀','💐','🌷'];
+
+  function createBgBalloons() {
+    const container = document.getElementById('bgBalloons');
+    const count = 18;
+    for (let i = 0; i < count; i++) {
+      const b = document.createElement('div');
+      b.className = 'bg-balloon';
+      b.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+      const left = 3 + Math.random() * 90;
+      const top = 2 + Math.random() * 90;
+      const duration = 4 + Math.random() * 5;
+      const delay = -Math.random() * 6;
+      const size = 36 + Math.random() * 28;
+      b.style.cssText = `left:${left}%;top:${top}%;animation-duration:${duration}s;animation-delay:${delay}s;font-size:${size}px;`;
+      container.appendChild(b);
+    }
+  }
+  createBgBalloons();
+
+  /* ---- GLOBOS DE FONDO PANTALLA 2 ---- */
+  function createS2Balloons() {
+    const container = document.getElementById('s2Balloons');
+    const count = 20;
+    for (let i = 0; i < count; i++) {
+      const b = document.createElement('div');
+      b.className = 's2-balloon';
+      b.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+      const left = 2 + Math.random() * 92;
+      const top = 2 + Math.random() * 92;
+      const duration = 5 + Math.random() * 6;
+      const delay = -Math.random() * 8;
+      const size = 34 + Math.random() * 26;
+      b.style.cssText = `left:${left}%;top:${top}vh;animation-duration:${duration}s;animation-delay:${delay}s;font-size:${size}px;`;
+      container.appendChild(b);
+    }
+  }
+
+  /* ---- BOTÓN CONTINUAR: lanzar globos y transición ---- */
+  function launchAndContinue() {
+    const btn = document.getElementById('btnContinue');
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+
+    // Crear globos que salen volando desde abajo
+    const emojisLaunch = ['🎈','🎈','🌸','🌹','🌺','💖','🎀','💐','🌷','🎈'];
+    const count = 14;
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const b = document.createElement('div');
+        b.className = 'launch-balloon';
+        b.textContent = emojisLaunch[Math.floor(Math.random() * emojisLaunch.length)];
+        const leftPos = 5 + Math.random() * 85;
+        const dur = 1.4 + Math.random() * 1.0;
+        const size = 38 + Math.random() * 22;
+        b.style.cssText = `left:${leftPos}vw;font-size:${size}px;animation:launchUp ${dur}s ease-in forwards;opacity:1;`;
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), (dur + 0.5) * 1000);
+      }, i * 100);
+    }
+
+    // Después de la animación, transición a pantalla 2
+    setTimeout(() => {
+      const s1 = document.getElementById('screen1');
+      s1.style.transition = 'opacity 0.6s ease';
+      s1.style.opacity = '0';
+
+      setTimeout(() => {
+        s1.style.display = 'none';
+        const s2 = document.getElementById('screen2');
+        s2.style.display = 'flex';
+        s2.style.opacity = '0';
+        s2.style.transition = 'opacity 0.6s ease';
+        createS2Balloons();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { s2.style.opacity = '1'; });
+        });
+      }, 650);
+    }, 1600);
+  }
+
+  /* ---- CELEBRACIÓN AL PRESIONAR SÍ ---- */
+  function celebrate() {
+    document.getElementById('btnSi').disabled = true;
+    launchConfetti();
+    launchCelebBalloons();
+    setTimeout(() => {
+      document.getElementById('celebMsg').classList.add('show');
+    }, 700);
+  }
+
+  function launchConfetti() {
+    const canvas = document.getElementById('confettiCanvas');
+    canvas.style.display = 'block';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+
+    const colors = ['#e8004a','#c2004a','#ff6b9d','#ff8fab','#ffd6e7','#ff3366','#ff1493','#ffffff','#ffb3c6','#8B0030','#ffccd5'];
+    const shapes = ['circle','rect','heart'];
+    const particles = [];
+
+    for (let i = 0; i < 200; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 9 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        shape: shapes[Math.floor(Math.random() * shapes.length)],
+        vx: (Math.random() - 0.5) * 6,
+        vy: Math.random() * 4 + 2,
+        angle: Math.random() * 360,
+        spin: (Math.random() - 0.5) * 10,
+        opacity: 1
+      });
+    }
+
+    function drawHeart(ctx, x, y, size, color) {
+      const s = size * 0.8;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x, y + s * 0.3);
+      ctx.bezierCurveTo(x, y, x - s, y, x - s, y + s * 0.3);
+      ctx.bezierCurveTo(x - s, y + s * 0.7, x, y + s, x, y + s * 1.2);
+      ctx.bezierCurveTo(x, y + s, x + s, y + s * 0.7, x + s, y + s * 0.3);
+      ctx.bezierCurveTo(x + s, y, x, y, x, y + s * 0.3);
+      ctx.fill();
+    }
+
+    let frame = 0;
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let allGone = true;
+      particles.forEach(p => {
+        if (p.opacity <= 0) return;
+        allGone = false;
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle * Math.PI / 180);
+        if (p.shape === 'circle') {
+          ctx.fillStyle = p.color;
+          ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill();
+        } else if (p.shape === 'rect') {
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.r, -p.r * 0.5, p.r * 2, p.r);
+        } else {
+          drawHeart(ctx, -p.r * 0.5, -p.r * 0.5, p.r * 0.7, p.color);
+        }
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.angle += p.spin;
+        p.vy += 0.06;
+        if (p.y > canvas.height) p.opacity -= 0.05;
+      });
+      frame++;
+      if (!allGone && frame < 300) requestAnimationFrame(animate);
+      else canvas.style.display = 'none';
+    }
+    animate();
+  }
+
+  function launchCelebBalloons() {
+    const emojis = ['🎈','🎀','🌸','🌹','🌺','💖','🎉','💐','🌷'];
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => {
+        const b = document.createElement('div');
+        b.className = 'launch-balloon';
+        b.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const lp = 5 + Math.random() * 85;
+        const dur = 2.5 + Math.random() * 2;
+        const sz = 32 + Math.random() * 26;
+        b.style.cssText = `left:${lp}vw;font-size:${sz}px;animation:launchUp ${dur}s ease-in forwards;opacity:1;z-index:9998;`;
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), (dur + 0.5) * 1000);
+      }, i * 150);
+    }
+  }
+</script>
+</body>
+</html>
