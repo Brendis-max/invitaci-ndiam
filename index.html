@@ -352,6 +352,47 @@
 
   .footer-flowers { margin-top: 16px; font-size: 20px; letter-spacing: 4px; }
 
+  /* Sección del mapa */
+  .map-section {
+    margin-top: 18px;
+    border-top: 1px solid #f0a0bb;
+    padding-top: 16px;
+  }
+  .map-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c2004a;
+    margin-bottom: 4px;
+  }
+  .map-place {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: #8B0030;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .map-place span {
+    font-style: italic;
+    color: #c2004a;
+  }
+  .map-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid #f9c6d4;
+    box-shadow: 0 6px 20px rgba(200,0,60,0.15);
+    width: 100%;
+    height: 220px;
+    position: relative;
+  }
+  .map-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
   /* Confetti */
   #confettiCanvas {
     position: fixed; top: 0; left: 0;
@@ -389,7 +430,7 @@
     <p class="welcome-sub">Tienes una invitación especial</p>
     <h1 class="welcome-title">Feliz <em>Día</em></h1>
     <h1 class="welcome-title">de las Madres</h1>
-    <p class="welcome-name">Mary</p>
+    
     <p class="welcome-msg">
       Hay algo muy especial preparado para ti.<br>
       ¡Toca el botón para descubrirlo! 🌹
@@ -417,7 +458,7 @@
     <div class="badge">Día de las Madres</div>
 
     <p class="title-small">Una invitación especial para</p>
-    <h1 class="title-main"><em>Mary</em></h1>
+    
 
     <!-- FOTO: reemplaza tavoymary.png con tu imagen en la misma carpeta -->
     <div class="photo-frame">
@@ -454,6 +495,19 @@
       </div>
     </div>
 
+    <div class="map-section">
+      <p class="map-label">📍 Nos vemos aquí</p>
+      <p class="map-place">Rivera <span>SETE</span></p>
+      <div class="map-wrapper">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!4v1777698517659!6m8!1m7!1s_GzjakYR00-IBI0eyy3HzA!2m2!1d19.02036229683792!2d-95.9676942274862!3f281.4239916207641!4f0.3007955760417502!5f0.7820865974627469"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+
     <div class="footer-flowers">🌸 🌺 🌹 💕 🌹 🌺 🌸</div>
   </div>
 </div>
@@ -464,7 +518,7 @@
 <!-- Mensaje de confirmación -->
 <div class="celebration-msg" id="celebMsg">
   <h2>🎉 ¡Qué alegría!</h2>
-  <p>Nos vemos el <strong>10 de mayo</strong>, Mary.<br>¡Te esperamos con todo el amor! 💕</p>
+  <p>Nos vemos el <strong>10 de mayo</strong>,<br>¡Te esperamos con todo el amor! 💕</p>
 </div>
 
 <script>
